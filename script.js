@@ -135,6 +135,7 @@ songIDArray.forEach(id => {
 });
 
 const displaySong = function (song) {
+  console.log(song);
   const artist = song.primary_artist.name;
   const songName = song.title;
   const html = `
@@ -168,7 +169,7 @@ const displaySocialMedia = function (media) {
       (html += `<a href=${social.url}><i class="fab fa-${social.provider} ${social.provider} fa-lg"></i></a>`)
   );
 
-  return html;
+  return 'We couldn\t find your song';
 };
 
 const playClickedSong = async function (song) {
@@ -177,6 +178,8 @@ const playClickedSong = async function (song) {
 
   const youtubeUrl = song.media.find(player => player.provider === 'youtube')
     .url;
+  if (!youtubeUrl) return;
+
   const youtubeUrlCode = youtubeUrl.slice(youtubeUrl.indexOf('?v=') + 3);
   const iframe = document.querySelector('iframe');
   iframe.src = `https://www.youtube.com/embed/${youtubeUrlCode}?autoplay=1&autopause=0&version=3&enablejsapi=1&playerapiid=ytplayer`;
