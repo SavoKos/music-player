@@ -1,3 +1,21 @@
+//////////////////////////////////////////////// YOUTUBE API ////////////////////////////////////////////////////////////
+// global variable for the player
+let player;
+
+// this function gets called when API is ready to use
+function onYouTubePlayerAPIReady() {
+  // create the global player from the specific iframe (#video)
+  player = new YT.Player('video');
+}
+
+// Inject YouTube API script
+const tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/player_api';
+const firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+//////////////////////////////////////////////// END YOUTUBE API ////////////////////////////////////////////////////////////
+
 const songContainer = document.querySelector('.song-container');
 const playPauseBtnPlayer = document.querySelector(
   '.player-container i#play-pause'
@@ -10,6 +28,7 @@ const accessToken =
   '?access_token=CXyFeSBw2lAdG41xkuU3LS6a_nwyxwwCz2dCkUohw-rw0C49x2HqP__6_4is5RPx';
 const APISearch = 'https://api.genius.com/search';
 const APISong = 'https://api.genius.com/songs/';
+// const songIDArray = ['2471960'];
 const songIDArray = ['521662', '2471960', '3315890', '3359190', '725791'];
 
 // all necessary data about songs
@@ -33,8 +52,6 @@ const searchSongById = async function (id) {
   }
 };
 
-// api.genius.com/search?q=kendrick&access_token=CXyFeSBw2lAdG41xkuU3LS6a_nwyxwwCz2dCkUohw-rw0C49x2HqP__6_4is5RPx
-
 const searchSongByName = async function (input) {
   try {
     const inputValue = `&q=${input.value}`;
@@ -44,7 +61,7 @@ const searchSongByName = async function (input) {
 
     if (!songsOnly) return;
     songContainer.innerHTML = '';
-    console.log(songsOnly);
+
     songsOnly.forEach(data => searchSongById(data.result.id));
   } catch (error) {
     console.log(error);
@@ -131,6 +148,10 @@ const displaySong = function (song) {
   </div>
     `;
   songContainer.insertAdjacentHTML('beforeend', html);
+
+  songs.currentSongEl = songContainer.firstElementChild;
+  songs.currentSongJSON = songs.allSongs[0];
+  playClickedSong(songs.allSongs[0]);
 };
 
 const displaySocialMedia = function (media) {
@@ -146,9 +167,10 @@ const displaySocialMedia = function (media) {
 
 const playClickedSong = async function (song) {
   // search for youtube url of song
+  if (!song.media) return;
+
   const youtubeUrl = song.media.find(player => player.provider === 'youtube')
     .url;
-  if (!youtubeUrl) return;
   const youtubeUrlCode = youtubeUrl.slice(youtubeUrl.indexOf('?v=') + 3);
   const iframe = document.querySelector('iframe');
   iframe.src = `https://www.youtube.com/embed/${youtubeUrlCode}?autoplay=1&autopause=0&version=3&enablejsapi=1&playerapiid=ytplayer`;
@@ -218,28 +240,7 @@ document.querySelector('form').addEventListener('submit', function (e) {
   e.preventDefault();
   const input = document.querySelector('input');
   searchSongByName(input);
+
+  songs.allSongs = [];
+  input.value = '';
 });
-//////////////////////////////////////////////// YOUTUBE API ////////////////////////////////////////////////////////////
-// global variable for the player
-let player;
-
-// this function gets called when API is ready to use
-function onYouTubePlayerAPIReady() {
-  // create the global player from the specific iframe (#video)
-  player = new YT.Player('video', {
-    events: {
-      // call this function when player is ready to use
-      onReady: onPlayerReady,
-    },
-  });
-}
-
-function onPlayerReady(event) {
-  // bind events
-}
-
-// Inject YouTube API script
-const tag = document.createElement('script');
-tag.src = 'https://www.youtube.com/player_api';
-const firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
