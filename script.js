@@ -5,9 +5,15 @@ let player;
 // this function gets called when API is ready to use
 function onYouTubePlayerAPIReady() {
   // create the global player from the specific iframe (#video)
-  player = new YT.Player('video');
+  player = new YT.Player('video', {
+    events: {
+      onReady: onPlayerReady,
+    },
+  });
 }
-
+function onPlayerReady() {
+  player.setPlaybackQuality('hd720'); // <-- WORKS!
+}
 // Inject YouTube API script
 const tag = document.createElement('script');
 tag.src = 'https://www.youtube.com/player_api';
