@@ -16,14 +16,14 @@
   </head>
   <body>
     <div class="player-container">
-      <img src="img/player.jpg" alt="" />
+      <img src="img/player.jpg" alt="" class="art-image" />
       <h4 class="author">twenty one pilots</h4>
       <h1 class="song-name">Stressed Out</h1>
       <div class="timelapse"></div>
       <div class="controls">
-        <i class="fas fa-step-backward fa-2x"></i>
-        <i class="fas fa-play fa-2x play"></i
-        ><i class="fas fa-step-forward fa-2x"></i>
+        <i class="fas fa-step-backward fa-2x" id="backward"></i>
+        <i class="fas fa-play fa-2x play" id="play-pause"></i
+        ><i class="fas fa-step-forward fa-2x" id="forward"></i>
       </div>
     </div>
     <div class="search-container">
@@ -36,5 +36,12 @@
       <h1>Play random song</h1>
       <div class="song-container"></div>
     </div>
+    <iframe
+      src="https://www.youtube.com/embed/ds2hMgiarJ0?&autopause=0&version=3&enablejsapi=1&playerapiid=ytplayer"
+      width="640"
+      height="360"
+      allowscriptaccess="always"
+      id="video"
+    ></iframe>
   </body>
 </html>
