@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" type="image/jpg" href="img/music-note.png" />
+    <script
+      defer
+      src="https://kit.fontawesome.com/8dd9d21097.js"
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="script.js"></script>
+    <title>Music Player</title>
+  </head>
+  <body>
+    <div class="player-container">
+      <img src="img/player.jpg" alt="" />
+      <h4 class="author">twenty one pilots</h4>
+      <h1 class="song-name">Stressed Out</h1>
+      <div class="timelapse"></div>
+      <div class="controls">
+        <i class="fas fa-step-backward fa-2x"></i>
+        <i class="fas fa-play fa-2x play"></i
+        ><i class="fas fa-step-forward fa-2x"></i>
+      </div>
+    </div>
+    <div class="search-container">
+      <form>
+        <input type="text" placeholder="Search your favorite song" /><button>
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+
+      <h1>Play random song</h1>
+      <div class="song-container"></div>
+    </div>
+  </body>
+</html>
