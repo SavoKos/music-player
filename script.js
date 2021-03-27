@@ -89,6 +89,8 @@ const playPauseFunctionality = function () {
 };
 
 const nextSong = function () {
+  if (!songs.currentSongEl) return;
+  console.log(songs.currentSongEl);
   const currentSongIndex = songs.allSongs.findIndex(
     song => song.id == songs.currentSongEl.id
   );
@@ -106,6 +108,8 @@ const nextSong = function () {
 };
 
 const prevSong = function () {
+  if (!songs.currentSongEl) return;
+
   const currentSongIndex = songs.allSongs.findIndex(
     song => song.id == songs.currentSongEl.id
   );
@@ -147,7 +151,7 @@ const displaySong = function (song) {
       />
       <i class="fas fa-play play" id="play-pause"></i>
       <h4>${artist} - ${songName}</h4>
-      <p>Lyrics</p>
+      <p class="lyrics-btn">Lyrics</p>
     </div>
     <div class="social">
       ${displaySocialMedia(song.media)}
@@ -169,7 +173,7 @@ const displaySocialMedia = function (media) {
       (html += `<a href=${social.url}><i class="fab fa-${social.provider} ${social.provider} fa-lg"></i></a>`)
   );
 
-  return 'We couldn\t find your song';
+  return html || 'We couldn\t find your song';
 };
 
 const playClickedSong = async function (song) {
@@ -208,6 +212,8 @@ const playPauseIconSwitch = function (from, to) {
     btn => (btn.className = btn.className.replaceAll('pause', 'play'))
   );
 
+  if (!songs.currentSongEl) return;
+
   const currentSongPlayPauseBtn = songs.currentSongEl.querySelector(
     'i#play-pause'
   );
@@ -223,14 +229,22 @@ const playPauseIconSwitch = function (from, to) {
   );
 };
 
+const displayLyrics = function (songEl) {
+  const songJSON = songs.allSongs.find(song => song.id == songEl.id);
+  songContainer.innerHTML = songJSON.embed_content;
+};
+
 // play song when clicked on play button on search song container
 songContainer.addEventListener('click', function (e) {
-  if (e.target.id !== 'play-pause') return;
-
-  // const videoTimeElapsed = player.getCurrentTime();
+  if (e.target.id !== 'play-pause' && e.target.className !== 'lyrics-btn')
+    return;
 
   if (e.target.className.includes('pause')) {
     playPauseFunctionality();
+    return;
+  }
+  if (e.target.className === 'lyrics-btn') {
+    displayLyrics(e.target.closest('.song'));
     return;
   }
 
